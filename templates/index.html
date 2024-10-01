@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ask GPT</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        #questionForm {
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            width: 70%;
+            padding: 10px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        #response {
+            margin-top: 20px;
+        }
+        #history {
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Ask GPT</h1>
+
+    <form id="questionForm">
+        <input type="text" id="questionInput" placeholder="Ask a question..." required />
+        <button type="submit">Ask</button>
+    </form>
+
+    <div id="response"></div>
+
+    <h2>Chat History</h2>
+    <button id="loadHistoryBtn">Load History</button>
+    <div id="history"></div>
+
+    <script>
+        const apiUrl = ''; // Relative path since frontend is served by Flask
+
+        document.getElementById('questionForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const question = document.getElementById('questionInput').value;
+
+            // Clear previous response
+            document.getElementById('response').innerHTML = '';
+
+            // Send question to backend
+            try {
+                const res = await fetch(`/ask`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ question })
+                });
+                const data = await res.json();
+                
+                if (res.ok) {
+                    document.getElementById('response').innerHTML = `
+                        <strong>Question:</strong> ${data.question} <br>
+                        <strong>Answer:</strong> ${data.answer}
+                    `;
+                } else {
+                    document.getElementById('response').innerHTML = `<strong>Error:</strong> ${data.error}`;
+                }
+            } catch (error) {
+                document.getElementById('response').innerHTML = `<strong>Error:</strong> Unable to connect to the server.`;
+            }
+        });
+
+        document.getElementById('loadHistoryBtn').addEventListener('click', async function() {
+            document.getElementById('history').innerHTML = ''; // Clear previous history
+
+            // Fetch chat history from backend
+            try {
+                const res = await fetch(`/history`);
+                const history = await res.json();
+
+                if (res.ok) {
+                    history.forEach(item => {
+                        const div = document.createElement('div');
+                        div.innerHTML = `<strong>Question:</strong> ${item.question} <br> <strong>Answer:</strong> ${item.answer}`;
+                        div.style.marginBottom = '15px';
+                        document.getElementById('history').appendChild(div);
+                    });
+                } else {
+                    document.getElementById('history').innerHTML = `<strong>Error:</strong> ${history.error}`;
+                }
+            } catch (error) {
+                document.getElementById('history').innerHTML = `<strong>Error:</strong> Unable to fetch history.`;
+            }
+        });
+    </script>
+
+</body>
+</html>
