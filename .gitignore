@@ -1,0 +1,66 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Flask environment files
+instance/
+.env
+*.env
+*.env.*
+
+# Virtual environment
+venv/
+handler_venv/
+env/
+ENV/
+.venv/
+bin/
+lib/
+lib64/
+scripts/
+python-env/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Logs and databases
+*.log
+*.sqlite
+*.sqlite3
+*.db
+
+# AWS Credentials (If you accidentally included them in your repo)
+.aws/
+.credentials
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDE project files (e.g., VS Code, PyCharm)
+.vscode/
+.idea/
+
+# GitHub settings
+.github/
+
+# Ignore the Docker container
+docker-compose.yml
+Dockerfile
+
+# Ignore node modules (if applicable)
+node_modules/
+npm-debug.log
+
+# Ignore large media files
+*.mp4
+*.avi
+*.mov
