@@ -9,11 +9,11 @@ Scalable, serverless deployment on AWS using Lambda and API Gateway.
 
 **Requirements**
 
-Python (3.9)
-AWS CLI
-Zappa
-OpenAI API Key
-Firebase Admin SDK credentials
+- Python (3.9)
+- AWS CLI
+- Zappa
+- OpenAI API Key
+- Firebase Admin SDK credentials
 
 **How to interact with the applicatoin**
 
