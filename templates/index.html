@@ -56,18 +56,16 @@
     <div id="history"></div>
 
     <script>
-        const apiUrl = ''; // Relative path since frontend is served by Flask
+        const apiUrl = 'https://p7np3y6vt3.execute-api.us-east-1.amazonaws.com/dev';
 
         document.getElementById('questionForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             const question = document.getElementById('questionInput').value;
 
-            // Clear previous response
             document.getElementById('response').innerHTML = '';
 
-            // Send question to backend
             try {
-                const res = await fetch(`/ask`, {
+                const res = await fetch(`${apiUrl}/ask`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ question })
@@ -88,11 +86,10 @@
         });
 
         document.getElementById('loadHistoryBtn').addEventListener('click', async function() {
-            document.getElementById('history').innerHTML = ''; // Clear previous history
+            document.getElementById('history').innerHTML = '';
 
-            // Fetch chat history from backend
             try {
-                const res = await fetch(`/history`);
+                const res = await fetch(`${apiUrl}/history`);
                 const history = await res.json();
 
                 if (res.ok) {
